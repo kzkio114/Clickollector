@@ -1,0 +1,38 @@
+version: "3"
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: heroku-test-db # DBの名前
+      MYSQL_ROOT_PASSWORD: password  # ROOTパスワード、rootでやるなら必要
+      MYSQL_PASSWORD: password       # 一般ユーザーのパスワード、多分
+    ports:
+      - "5432:5432" #修正5432:5432別dockerとかち合うため
+    volumes:
+      - mysql_data:/var/lib/mysql
+  back:
+    build:
+      context: ./backend # バックのディレクトリ名
+      dockerfile: Dockerfile
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
+    volumes:
+      - ./backend:/app # バックのディレクトリがbackendでなければここも変更
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
+    environment:
+      - RAILS_ENV=development
+  front:
+    build:
+      context: ./frontend/ # フロントのディレクトリ名
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app # フロントのディレクトリ名がfrontendでなければ
+    command: yarn start # npmでやる場合はnpmに変更
+    ports:
+      - "8000:3000"
+volumes:
+  mysql_data:
