@@ -35,11 +35,15 @@ require 'googleauth/stores/file_token_store'
           # page_token: page_token
         )
     
-         # 画像URLの取得
-         # ファイルリストからファイル名とURLを取得する
-         @images = response.files.map do |file|
-         { name: file.name, web_view_link: file.web_view_link }
-         end
+           # 画像URLの取得
+           # ファイルリストからファイル名とURLを取得する
+           # ファイルリストからファイル名と直接表示可能なURLを取得する
+           @images = response.files.map do |file|
+           file_id = file.id # ファイルIDの取得
+           direct_link = "https://lh3.googleusercontent.com/d/#{file_id}" # 直接リンクの生成
+           { name: file.name, direct_link: direct_link } # 直接リンクを含むハッシュを作成
+          end
+
 
       
          # 例として最初の画像をランダムに選択する

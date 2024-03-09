@@ -15,7 +15,7 @@ function ImageGallery() {
     <div>
       {images.map(image => (
         <div key={image.name}>
-          <img src={image.web_view_link} alt={image.name} />
+          <img src={image.direct_link} alt={image.name} />
           <p>{image.name}</p>
         </div>
       ))}

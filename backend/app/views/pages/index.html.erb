@@ -1,0 +1,85 @@
+<div class="container mt-5 mb-3">
+  <div class="row">
+    <div class="col-2 text-center">
+  <%= link_to image_tag('image.png', alt: 'キャラクターの説明', class: 'speech-icon'), '#', id: 'customModalBtn' %>
+  <p class="mt-2 text-warning">アストロ君</p>
+</div>
+    <div class="col-8">
+      <div class="speech-bubble">
+        <p class="mb-0 text-dark center-text">注意事項だよ</p>
+        <p class="mb-0 text-dark"> ・このクイズには、私の個人的な意見が反映されているよ！！</p>
+        <p class="mb-0 text-dark"> ・頑張って調べたけど、間違いがあるかも知れないから、他の情報源もチェックしてね。</p>
+        <p class="mb-0 text-danger">  ・アストロ君・マニアック・種類当てクイズでは、爬虫類の写真が出るので苦手な人は気をつけてね！</p>
+        <p class="mb-0 text-dark"> ・クイズで満点を取ったら、結果ページで爬虫類の画像が出るよ！興味ある人は見てね！！</p>
+        <p class="mb-0 text-dark"> ・残念賞で出る画像ガチャを追加したよ！！！５０種類あるよ！</p>
+        <p class="mb-0 text-warning">   あとね・・・本当は、秘密だけど、画像ガチャはTwitterでシェアできるみたい！！探してみてね！</p>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- ボタンの幅を親コンテナの全幅に設定 -->
+   <div class="col-8 offset-2 mt-4">
+      <%= link_to 'とりあえず爬虫類のことよくわからない人向けクイズです！！（初級）', beginner_quiz_path, class: 'btn btn-primary d-block my-2' %>
+    </div>
+    <div class="col-8 offset-2 mt-3">
+      <%= link_to '爬虫類が結構好きな人向けクイズです！！（中級）', advanced_quiz_path, class: 'btn btn-success d-block my-2' %>
+    </div>
+   <div class="col-8 offset-2 mt-3">
+   <%= link_to 'マニアック！！な問題を出します！！クリアできるかな？？（上級）', maniac_quiz_path, class: 'btn btn-danger d-block my-2' %>
+   </div>
+   <div class="col-8 offset-2 mt-5">
+   <%= link_to 'この爬虫類は何でしょう？？', intermediate_quiz_path, class: 'btn btn-secondary d-block my-2' %>
+   </div>
+   <div class="col-8 offset-2 mt-5 text-center">
+   <div class="position-relative d-inline-block">
+   <div class="d-inline-block text-white bg-dark">
+    残念賞イラストガチャです。(50種類以上)
+    <%= link_to @random_image_url, target: "_blank", class: 'btn btn-dark btn-sm d-block my-2' do %>
+      <%= image_tag('ガチャ.png', alt: 'ガチャ', class: 'img-fluid', style: 'max-width: 300px;') %>
+      <%= link_to "Twitterでシェア", "https://twitter.com/intent/tweet?text=#{CGI.escape("残念賞画像ガチャはこの結果になりました！ 🥳\n#{@random_image_name}です！🥳おめでとうございます！🥳 ")}&url=#{CGI.escape(@random_image_url)}", target: "_blank", class: "btn btn-twitter" %>
+    <% end %>
+    </div>
+    </div>
+   </div>
+  </div>
+</div>
+
+<!-- モーダル -->
+<div id="customModal" class="custom-modal" style="display:none;">
+  <div class="custom-modal-content">
+    <span class="custom-modal-close">&times;</span>
+    <p>爬虫類の写真が出るますが進みますか？？</p>
+    <!-- リンクやボタンをここに追加 -->
+    <%= link_to 'はい',start_astro_quiz_path, class: 'btn btn-primary' %>
+    <button id="customModalClose" class="btn btn-secondary">いいえ</button>
+  </div>
+</div>
+
+<!-- 既存のHTMLコード -->
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function () {
+    var modal = document.getElementById("customModal");
+    var btn = document.getElementById("customModalBtn");
+    var span = document.getElementsByClassName("custom-modal-close")[0];
+    var closeBtn = document.getElementById("customModalClose");
+
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    closeBtn.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  });
+</script>
+
