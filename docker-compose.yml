@@ -25,6 +25,8 @@ services:
     stdin_open: true
     environment:
       - RAILS_ENV=development
+    env_file:
+      - .env
   front:
     build:
       context: ./frontend/ # フロントのディレクトリ名
