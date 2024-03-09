@@ -1,0 +1,34 @@
+name: Heroku Deploy
+
+# プッシュイベントがmainブランチで発生した場合にワークフローをトリガーします
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy app to Heroku
+    runs-on: ubuntu-latest # Ubuntuランナーを使用
+
+    steps:
+      - uses: actions/checkout@v3
+        # リポジトリのコードをチェックアウト
+
+      # Heroku CLIをセットアップ
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+        # Herokuへのデプロイを行います
+        # HEROKU_API_KEY, HEROKU_APP_NAME, HEROKU_EMAILはGitHub Secretsに設定する必要があります
+
+      - uses: sarisia/actions-status-discord@v1
+        if: always() # 成功または失敗にかかわらず常に実行
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          nodetail: true
+          title: "Heroku Deploy Notification"
+          # Discordにデプロイの通知を送ります
+          # DISCORD_WEBHOOKはGitHub Secretsに設定する必要があります
