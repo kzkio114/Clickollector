@@ -16,3 +16,4 @@ tmp/storage/*
 !tmp/storage/.keep
 
 config/master.key
+.env
