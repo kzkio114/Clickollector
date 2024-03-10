@@ -4,8 +4,8 @@ import ImageGallery from './ImageGallery'; // ImageGalleryコンポーネント�
 function App() {
   return (
     <div className="App">
-      <h1>画像ギャラリー</h1>
-      <ImageGallery /> // ImageGalleryコンポーネントをレンダリング
+      <h1>何が出るかな？？どうかな？？</h1>
+      <ImageGallery />  {/* ImageGalleryコンポーネントを呼び出す */}
     </div>
   );
 }
