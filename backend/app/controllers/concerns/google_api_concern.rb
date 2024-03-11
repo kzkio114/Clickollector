@@ -29,7 +29,7 @@ require 'googleauth/stores/file_token_store'
         # 画像ファイルのリストを取得するためのDrive APIの使用
         folder_id = '113FpN_5gjtwSbYGSNo9li4DlXomt4lIN' # ここに検索したいフォルダのIDを設定
         response = service.list_files(
-          q: "('#{folder_id}' in parents) and (mimeType='image/jpeg' or mimeType='image/png')",
+          q: "('#{folder_id}' in parents) and (mimeType='image/jpeg' or mimeType='image/png' or mimeType='image/webp')",
           spaces: 'drive',
           fields: 'files(id, name, web_view_link, web_content_link)',
           # page_token: page_token
