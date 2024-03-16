@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :images, only: [:index]
-      get 'weapons/select_weapon', to: 'weapons#select_weapon' # データベースから武器データを取得するためのAPIエンドポイントを設定
+      resources :items, only: [:index]
+      get 'weapons/select_weapon', to: 'weapons#select_weapon'
+      end
     end
   end
-end

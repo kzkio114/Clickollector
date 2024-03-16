@@ -13,19 +13,16 @@ class Api::V1::WeaponsController < ApplicationController
       else
         render json: { error: '適切な武器が見つかりませんでした。' }, status: :not_found
       end
+    end
   
 
     private
 
-    def select_image_by_keyword(keyword)
-      # GoogleApiConcernに含まれる@imagesからキーワードに一致する画像を選択
-      @images.select { |image| image[:name].include?(keyword) }.sample
-    end
-
+    
     def calculate_damage(image)
       # 画像名に基づいてダメージ値を計算するロジック
       # 例: ファイル名から特定のパターンを検出してダメージ値を決定
-      10 + rand(5..15) # 仮の計算方法：基本ダメージ+ランダムな追加ダメージ
+      10 + rand(5..15000) # 仮の計算方法：基本ダメージ+ランダムな追加ダメージ
     end
   end
-end
+

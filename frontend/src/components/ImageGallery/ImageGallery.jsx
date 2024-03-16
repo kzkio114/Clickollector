@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 function ImageGallery() {
   const [images, setImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState('');
-  const [showImage, setShowImage] = useState(false); // 最初はfalseにしておく
+  const [showImage, setShowImage] = useState(false); 
+  // 最初はfalseにしておく
 
   useEffect(() => {
     fetch('http://localhost:3000/api/v1/images')

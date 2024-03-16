@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_16_160805) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_16_230002) do
   create_table "armors", charset: "utf8mb3", force: :cascade do |t|
     t.string "name"
     t.integer "defense_power"
@@ -22,6 +22,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_16_160805) do
   create_table "attributes", charset: "utf8mb3", force: :cascade do |t|
     t.string "name"
     t.integer "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "items", charset: "utf8mb3", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "image_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
