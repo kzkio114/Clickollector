@@ -1,5 +1,5 @@
 import React from 'react';
-import ImageGallery from './ImageGallery'; // ImageGalleryコンポーネントをインポート
+import ImageGallery from './components/ImageGallery/ImageGallery';
 
 function App() {
   return (

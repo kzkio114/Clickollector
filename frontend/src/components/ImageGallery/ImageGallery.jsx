@@ -29,7 +29,7 @@ function ImageGallery() {
   return (
     <div>
       <button onClick={showRandomImage}className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >押してくれ〜お願いだ</button>
+      >テスあああト</button>
       {showImage && selectedImage && ( // showImageとselectedImageが真の時のみ表示
         <div>
           <img src={selectedImage} alt="Selected" style={{ width: '300px', height: 'auto' }} />
