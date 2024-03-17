@@ -24,6 +24,26 @@ function ItemSearch() {
     setFilteredItems(results);
   }, [searchTerm, items]);
 
+   // handleSearch関数の実装
+const handleSearch = () => {
+  // 入力された検索語に基づいてアイテムを検索するAPIエンドポイントにリクエストを送信
+  fetch(`http://localhost:3000/api/v1/items/search?keyword=${encodeURIComponent(searchTerm)}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      // レスポンスデータ（検索結果）をfilteredItemsにセット
+      setFilteredItems(data);
+    })
+    .catch(error => {
+      console.error('検索中にエラーが発生しました:', error);
+    });
+};
+
+
   return (
     <div>
       <input
@@ -33,6 +53,7 @@ function ItemSearch() {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="input"
       />
+      <button onClick={handleSearch}>検索</button>
       {filteredItems.map((item) => (
         <div key={item.id} className="item">
           <h3>{item.name}</h3>

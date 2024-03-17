@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 function ImageGallery() {
   const [images, setImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState('');
-  const [showImage, setShowImage] = useState(false); 
+  const [showImage, setShowImage] = useState(false);
   // 最初はfalseにしておく
 
   useEffect(() => {
@@ -21,11 +21,16 @@ function ImageGallery() {
 
   // ランダムに画像を選択する関数
   const selectRandomImage = () => {
-    if (images.length > 0) {
-      const randomIndex = Math.floor(Math.random() * images.length);
-      setSelectedImage(images[randomIndex].direct_link);
+    // images が null または undefined、または空配列の場合は処理を中断
+    if (!images || images.length === 0) {
+      console.log('画像がありません。');
+      return;
     }
+    // images が空でない場合はランダムに画像を選択
+    const randomIndex = Math.floor(Math.random() * images.length);
+    setSelectedImage(images[randomIndex].direct_link);
   };
+
 
   return (
     <div>
