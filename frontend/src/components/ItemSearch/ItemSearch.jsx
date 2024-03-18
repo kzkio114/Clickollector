@@ -11,7 +11,7 @@ function ItemSearch() {
       .then(response => response.json())
       .then(data => {
         setItems(data);
-        setFilteredItems(data); // 初期状態では全アイテムを表示
+        //setFilteredItems(data); // 初期状態では全アイテムを表示
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);

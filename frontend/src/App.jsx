@@ -1,17 +1,24 @@
 import React from 'react';
+import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Switch ではなく Routes をインポート
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import WeaponSelector from './components/WeaponSelector/WeaponSelector';
 import ItemSearch from './components/ItemSearch/ItemSearch';
-
+import NextPageComponent from './components/NextPageComponent/NextPageComponent';
 
 function App() {
   return (
-    <div className="App">
-      <h1>何が出るかな？？どうかな？？</h1>
-      <ImageGallery />  {/* ImageGalleryコンポーネントを呼び出す */}
-      <WeaponSelector /> {/* WeaponSelectorコンポーネントを呼び出す */}
-      <ItemSearch />     {/* ItemSearchコンポーネントを呼び出す */}
-    </div>
+    <Router>
+      <div className="App">
+        <h1>ゲーム作成中</h1>
+        <Routes> {/* Switch を Routes に置き換え */}
+          <Route path="/" element={<ImageGallery />} />
+          <Route path="/next" element={<NextPageComponent />} />
+          <Route path="/weapons" element={<WeaponSelector />} />
+          <Route path="/items" element={<ItemSearch />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

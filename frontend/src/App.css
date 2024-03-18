@@ -1,6 +1,12 @@
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* 画面の高さに合わせる */
+  text-align: center; /* テキストを中央揃えにする */
 }
+
 
 .App-logo {
   height: 40vmin;
