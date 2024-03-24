@@ -1,11 +1,11 @@
 class Api::V1::ItemsController < ApplicationController
     include GoogleApiConcern
-  
+
     def index
       @items = Item.all
       render json: @items
     end
-  
+
     # GoogleApiConcern でGoogle Drive内を検索するメソッドを定義
     def search_in_google_drive(keyword)
       service = initialize_google_api

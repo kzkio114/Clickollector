@@ -38,6 +38,8 @@ require 'googleauth/stores/file_token_store'
       end
     
       def select_image_by_keyword(keyword)
-        @images.select { |image| image[:name].include?(keyword) }.sample
+        return nil unless keyword.is_a?(String)
+      
+        @images.select { |image| image[:name]&.include?(keyword) }.sample
       end
     end

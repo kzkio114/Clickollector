@@ -39,7 +39,7 @@ function ImageGallery() {
     const randomIndex = Math.floor(Math.random() * images.length);
     setSelectedImage(images[randomIndex]);
   };
-  
+
 
   const handleImageClick = () => {
     const route = getRouteBasedOnImageName(selectedImage.name);

@@ -11,8 +11,14 @@ function App() {
     <Router>
       <div className="App">
         <h1>ゲーム作成中</h1>
-        <Routes> {/* Switch を Routes に置き換え */}
-          <Route path="/" element={<ImageGallery />} />
+        <Routes>
+          <Route path="/" element={
+            <>
+              <WeaponSelector />
+              <ImageGallery />
+              {/* 他に表示したいコンポーネントがあればここに追加 */}
+            </>
+          } />
           <Route path="/next" element={<NextPageComponent />} />
           <Route path="/weapons" element={<WeaponSelector />} />
           <Route path="/items" element={<ItemSearch />} />
