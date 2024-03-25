@@ -54,7 +54,8 @@ Rails.application.configure do
   config.active_record.verbose_query_logs = true
 
   config.hosts << "back"
-  config.hosts << "kzkio-test-back-e6481638daa8.herokuapp.com"
+  # 許可するホストを追加
+  config.hosts << "https://clickollector-back1-124c82a58f82.herokuapp.com"
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
