@@ -55,7 +55,7 @@ Rails.application.configure do
 
   config.hosts << "back"
   # 許可するホストを追加
-  config.hosts << "https://clickollector-back1-124c82a58f82.herokuapp.com"
+  config.hosts << "clickollector-back1-124c82a58f82.herokuapp.com"
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
