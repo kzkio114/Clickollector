@@ -10,8 +10,9 @@ function ImageGallery() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('API URL:', process.env.REACT_APP_API_URL); // ここで環境変数の値をログに出力
     setIsLoading(true); // データの読み込みを開始
-    fetch('http://localhost:3000/api/v1/images')
+    fetch(`${process.env.REACT_APP_API_URL}/api/v1/images`)
       .then(response => response.json())
       .then(data => {
         setImages(data);

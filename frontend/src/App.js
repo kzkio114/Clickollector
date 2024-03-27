@@ -10,7 +10,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <h1>作成中</h1>
+        <h1>Clickollector</h1>
         <Routes>
           <Route path="/" element={
             <>

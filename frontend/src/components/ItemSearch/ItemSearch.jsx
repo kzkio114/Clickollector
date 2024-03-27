@@ -7,7 +7,7 @@ function ItemSearch() {
 
   useEffect(() => {
     // アイテムデータをAPIから取得
-    fetch('http://localhost:3000/api/v1/items')
+    fetch(`${process.env.REACT_APP_API_URL}/api/v1/items`)
       .then(response => response.json())
       .then(data => {
         setItems(data);
@@ -27,7 +27,7 @@ function ItemSearch() {
    // handleSearch関数の実装
 const handleSearch = () => {
   // 入力された検索語に基づいてアイテムを検索するAPIエンドポイントにリクエストを送信
-  fetch(`http://localhost:3000/api/v1/items/search?keyword=${encodeURIComponent(searchTerm)}`)
+  fetch(`${process.env.REACT_APP_API_URL}/api/v1/items/search?keyword=${encodeURIComponent(searchTerm)}`)
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
