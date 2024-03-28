@@ -53,7 +53,7 @@ function ImageGallery() {
       return '/desert';
     } else if (imageName.includes('海')) {
       return '/sea';
-    } else if (imageName.includes('山')) {
+    } else if (imageName.includes('火山')) {
       return '/mountain';
     }
     return '/default-route'; // デフォルトのルート
