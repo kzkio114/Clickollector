@@ -49,14 +49,14 @@ function ImageGallery() {
 
   const getRouteBasedOnImageName = (imageName) => {
     // ルートの条件分岐
-    if (imageName.includes('砂漠')) {
-      return '/desert';
-    } else if (imageName.includes('海')) {
-      return '/sea';
-    } else if (imageName.includes('火山')) {
+   // if (imageName.includes('砂漠')) {
+   //   return '/desert';
+   // } else if (imageName.includes('海')) {
+   //  return '/sea';
+    if (imageName.includes('火山')) { //} else削除ずみ
       return '/mountain';
     }
-    return '/default-route'; // デフォルトのルート
+   // return '/default-route'; // デフォルトのルート
   };
 
   return (

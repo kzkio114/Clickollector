@@ -51,7 +51,7 @@ function App() {
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <div>こんにちは、{username}さん！</div>
+            <div>初めまして、{username}さん！ 冒険スタートです！！</div>
           </motion.div>
           <ImageGallery />
         </>

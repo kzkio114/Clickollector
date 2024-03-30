@@ -1,0 +1,6 @@
+/* Title.css */
+.title .app-title {
+    font-size: 48px; /* フォントサイズを大きく */
+    text-align: center; /* 中央揃え */
+    margin: 20px 0; /* 上下の余白 */
+  }

@@ -29,7 +29,11 @@ function ItemRespawn({ imageUrl, width, height }) {
   };
 
   const handleItemClick = (itemName) => {
-    addItem({ name: itemName });
+    // 「賢者の石」はステージで1つだけ取得可能
+    if (itemName === "賢者の石" && collectedItems.some(item => item.name === "賢者の石")) {
+      return;
+    }
+    addItem({ name: itemName, count: 1 });
   };
 
   return (
@@ -37,12 +41,19 @@ function ItemRespawn({ imageUrl, width, height }) {
       <div style={{ position: 'absolute', top: 0, left: 0, width: `${width}px`, height: `${height}px` }}>
         {items.map((item, index) => (
           <button
-            key={index}
-            onClick={() => handleItemClick(item.name)}
-            style={{ position: 'absolute', top: `${item.top}%`, left: `${item.left}%`, opacity: 1 }}
-          >
-            {item.name}
-          </button>
+          key={index}
+          onClick={() => handleItemClick(item.name)}
+          style={{
+            position: 'absolute',
+            top: `${item.top}%`,
+            left: `${item.left}%`,
+            //color: 'transparent', // テキストを透明にする
+            //backgroundColor: 'transparent', // ボタンの背景を透明にする
+            //border: 'none' // ボーダーを消す
+          }}
+        >
+          {item.name}
+        </button>
         ))}
       </div>
       <div className="absolute right-0 top-0 p-4">

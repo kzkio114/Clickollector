@@ -10,12 +10,16 @@ import Sea from './components/Map/Sea';
 import Mountain from './components/Map/Mountain';
 import Username from './components/Username/Username';
 import { GameStateProvider } from './components/Username/GameStateContext'; // UserContextからUserProviderをインポート
+import Title from './components/Title/Title';
+
+
 
 function App() {
   return (
     <GameStateProvider> {/* UserProviderで全体をラップ */}
       <Router>
         <div className="App">
+        <Title>Clickollector</Title> {/* アプリのタイトル */}
           <Routes>
             <Route path="/" element={
               <>

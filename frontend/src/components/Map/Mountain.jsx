@@ -37,7 +37,7 @@ function Mountain() {
   useEffect(() => {
     if (timer === 0) {
       // タイマーが0になったら指定したページに遷移
-      navigate('/'); // ここでは例としてホームページへの遷移を設定
+      navigate('/next'); // useNavigate フックを使用
     }
   }, [timer, navigate]);
 
@@ -98,6 +98,17 @@ function Mountain() {
             >
               次のステージを表示
             </button>
+        <button
+            onClick={() => {
+                const confirm = window.confirm("冒険を終えますか？");
+                if (confirm) {
+                    navigate('/next');
+                }
+              }}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
+            >
+            冒険を終える
+        </button>
           </div>
         </div>
       )}
