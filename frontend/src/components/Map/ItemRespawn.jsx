@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useGameState } from '../Username/GameStateContext'; // 正確なパスに注意してください
+import { motion } from 'framer-motion';
 
 const itemNames = ["石", "溶岩石", "火の石", "強い炎の石", "賢者の石"];
 
@@ -40,20 +41,28 @@ function ItemRespawn({ imageUrl, width, height }) {
     <>
       <div style={{ position: 'absolute', top: 0, left: 0, width: `${width}px`, height: `${height}px` }}>
         {items.map((item, index) => (
-          <button
-          key={index}
-          onClick={() => handleItemClick(item.name)}
-          style={{
-            position: 'absolute',
-            top: `${item.top}%`,
-            left: `${item.left}%`,
-            //color: 'transparent', // テキストを透明にする
-            //backgroundColor: 'transparent', // ボタンの背景を透明にする
-            //border: 'none' // ボーダーを消す
-          }}
-        >
-          {item.name}
-        </button>
+         <motion.button
+         key={item.id}
+         onClick={() => handleItemClick(item.name)}
+         whileHover={{ scale: 1.1, backgroundColor: "#ff0000" }} // ホバー時に拡大し、背景色を赤に
+         whileTap={{ scale: 0.95 }} // タップ（クリック）時に少し縮小
+         style={{
+           position: 'absolute',
+           top: `${item.top}%`,
+           left: `${item.left}%`,
+           backgroundColor: '#000000', // 通常時の背景色をHEX形式に
+           border: 'none',
+           borderRadius: '50%',
+           padding: '10px',
+           cursor: 'pointer',
+           display: 'flex',
+           alignItems: 'center',
+           justifyContent: 'center',
+           color: 'white'
+         }}
+       >
+         {/* アイコンやテキストなど */}
+       </motion.button>
         ))}
       </div>
       <div className="absolute right-0 top-0 p-4">

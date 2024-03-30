@@ -35,7 +35,7 @@ function App() {
           className="flex flex-col items-center justify-center h-screen" // これによりボタンは画面の中央に配置されます
         >
            {/* 冒険者かどうかを尋ねるセクション */}
-           <p className="mb-4 text-xl font-semibold text-gray-800">画像をクリックしてアイテムを探そう！！</p>
+           <p className="mb-4 text-xl font-semibold text-gray-800">画像をクリックしてアイテムを探して<br />お金持ちになろう！！</p>
            <button
              onClick={() => setIsRegistered(true)}
              className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"
