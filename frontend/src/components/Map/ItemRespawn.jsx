@@ -66,11 +66,11 @@ function ItemRespawn({ imageUrl, width, height }) {
         ))}
       </div>
       <div className="absolute right-0 top-0 p-4">
-        <h2 className="text-lg font-semibold">獲得アイテム:</h2>
-        {collectedItems.map((item, index) => (
-          <p key={index}>{`${item.name} × ${item.count}` }</p>
-        ))}
-      </div>
+      <h2 className="text-lg font-semibold text-white">獲得アイテム:</h2>
+      {collectedItems.map((item, index) => (
+      <p key={index} className="text-white">{`${item.name} × ${item.count}`}</p>
+     ))}
+    </div>
     </>
   );
 }
