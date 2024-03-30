@@ -83,5 +83,8 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-  config.hosts << "kzkio-test-frontend-d2ec2c0cbebd.herokuapp.com"
+  config.hosts << "clickollector-4d5bda395d4c.herokuapp.com"
+  # 許可するホストを追加
+  config.hosts << "clickollector-backend-d548beba6aa8.herokuapp.com"
+
 end

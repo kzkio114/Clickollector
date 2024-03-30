@@ -22,7 +22,7 @@ function WeaponSelector() {
     setLoading(true);
     setError('');
     try {
-      const url = `http://localhost:3000/api/v1/weapons/select_weapon?keyword=${encodeURIComponent(keyword)}`;
+      const url = `${process.env.REACT_APP_API_URL}/api/v1/weapons/select_weapon?keyword=${encodeURIComponent(keyword)}`;
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error('武器の取得に失敗しました。');

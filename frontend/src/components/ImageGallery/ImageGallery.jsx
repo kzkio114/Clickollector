@@ -10,8 +10,9 @@ function ImageGallery() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('API URL:', process.env.REACT_APP_API_URL); // ここで環境変数の値をログに出力
     setIsLoading(true); // データの読み込みを開始
-    fetch('http://localhost:3000/api/v1/images')
+    fetch(`${process.env.REACT_APP_API_URL}/api/v1/images`)
       .then(response => response.json())
       .then(data => {
         setImages(data);
@@ -48,14 +49,14 @@ function ImageGallery() {
 
   const getRouteBasedOnImageName = (imageName) => {
     // ルートの条件分岐
-    if (imageName.includes('砂漠')) {
-      return '/desert';
-    } else if (imageName.includes('海')) {
-      return '/sea';
-    } else if (imageName.includes('山')) {
+   // if (imageName.includes('砂漠')) {
+   //   return '/desert';
+   // } else if (imageName.includes('海')) {
+   //  return '/sea';
+    if (imageName.includes('火山')) { //} else削除ずみ
       return '/mountain';
     }
-    return '/default-route'; // デフォルトのルート
+   // return '/default-route'; // デフォルトのルート
   };
 
   return (

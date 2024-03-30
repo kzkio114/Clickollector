@@ -15,9 +15,7 @@ class Api::V1::WeaponsController < ApplicationController
       end
     end
 
-
     private
-
 
     def calculate_damage(image)
       # 画像名に基づいてダメージ値を計算するロジック
