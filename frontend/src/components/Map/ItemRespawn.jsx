@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useGameState } from '../Username/GameStateContext'; // 正確なパスに注意してください
 
-const itemNames = ["剣", "盾", "杖", "弓", "ポーション"];
+const itemNames = ["石", "溶岩石", "火の石", "強い炎の石", "賢者の石"];
 
 function ItemRespawn({ imageUrl, width, height }) {
   const [items, setItems] = useState([]);
+  const { addItem, collectedItems } = useGameState();
   // アイテムの取得回数を管理するオブジェクト
-  const [collectedItemsCount, setCollectedItemsCount] = useState({});
+
 
   useEffect(() => {
     if (width > 0 && height > 0) {
@@ -27,17 +29,7 @@ function ItemRespawn({ imageUrl, width, height }) {
   };
 
   const handleItemClick = (itemName) => {
-    // 特定のアイテム（例: ポーション）は1個だけ取得可能にする
-    if (itemName === "ポーション" && collectedItemsCount[itemName]) {
-      // すでにポーションを取得している場合は何もしない
-      return;
-    }
-
-    // それ以外のアイテム、またはポーションを初めて取得する場合
-    setCollectedItemsCount(prev => ({
-      ...prev,
-      [itemName]: (prev[itemName] || 0) + 1,
-    }));
+    addItem({ name: itemName });
   };
 
   return (
@@ -55,8 +47,8 @@ function ItemRespawn({ imageUrl, width, height }) {
       </div>
       <div className="absolute right-0 top-0 p-4">
         <h2 className="text-lg font-semibold">獲得アイテム:</h2>
-        {Object.entries(collectedItemsCount).map(([itemName, count], index) => (
-          <p key={index}>{`${itemName} × ${count}`}</p>
+        {collectedItems.map((item, index) => (
+          <p key={index}>{`${item.name} × ${item.count}` }</p>
         ))}
       </div>
     </>

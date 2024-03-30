@@ -8,7 +8,20 @@ export const GameStateProvider = ({ children }) => {
 
   // アイテムを追加する関数
   const addItem = (item) => {
-    setCollectedItems(prevItems => [...prevItems, item]);
+    // 既存のアイテムを検索
+    const existingItem = collectedItems.find(i => i.name === item.name);
+
+    if (existingItem) {
+      // 既存のアイテムが見つかった場合、数量を増やす
+      setCollectedItems(
+        collectedItems.map(i =>
+          i.name === item.name ? { ...i, count: i.count + 1 } : i
+        )
+      );
+    } else {
+      // 新しいアイテムの場合、リストに追加
+      setCollectedItems([...collectedItems, { ...item, count: 1 }]);
+    }
   };
 
   return (
