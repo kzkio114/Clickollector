@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+// その他のコード...
+
 
 const GameStateContext = createContext();
 
@@ -23,6 +25,11 @@ export const GameStateProvider = ({ children }) => {
       setCollectedItems([...collectedItems, { ...item, count: 1 }]);
     }
   };
+
+  useEffect(() => {
+    console.log('GameStateProviderでセットされたユーザー名:', username);
+  }, [username]);
+
 
   return (
     <GameStateContext.Provider value={{ username, setUsername, collectedItems, addItem }}>

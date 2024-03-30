@@ -4,23 +4,26 @@ import ImageGallery from '../ImageGallery/ImageGallery'; // 仮定のパス、�
 
 function App() {
   const [username, setUsername] = useState('');
+  const [isRegistered, setIsRegistered] = useState(false);
 
   // コンポーネントのマウント時に localStorage からユーザー名を取得
   useEffect(() => {
     const savedUsername = localStorage.getItem('username');
     if (savedUsername) {
       setUsername(savedUsername);
+      setIsRegistered(true);
     }
   }, []);
 
-  const handleRegister = (event) => {
-    event.preventDefault();
-    const name = event.target.elements.username.value; // 正確な要素の参照方法
-    localStorage.setItem('username', name);
-    setUsername(name);
-  };
 
-  const isRegistered = username.length > 0;
+  // const handleRegister = (event) => {
+  //   event.preventDefault();
+  //   const name = event.target.elements.username.value; // 正確な要素の参照方法
+  //   localStorage.setItem('username', name);
+  //   setUsername(name);
+  // };
+
+  // const isRegistered = username.length > 0;
 
   return (
     <>
@@ -29,8 +32,17 @@ function App() {
           initial={{ y: -100, opacity: 0 }}// 初期状態 motion上から下に移動し、透明度を0から1に変化
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
+          className="flex flex-col items-center justify-center h-screen" // これによりボタンは画面の中央に配置されます
         >
-          <form onSubmit={handleRegister} className="registration-form">
+           {/* 冒険者かどうかを尋ねるセクション */}
+           <p className="mb-4 text-xl font-semibold text-gray-800">あなたは冒険者ですか？</p>
+           <button
+             onClick={() => setIsRegistered(true)}
+             className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+             >
+             はい
+             </button>
+              {/* <form onSubmit={handleRegister} className="registration-form">
             <label htmlFor="username">あなたの名前は？:</label>
             <input
               type="text"
@@ -41,7 +53,7 @@ function App() {
               required
             />
             <button type="submit">登録</button>
-          </form>
+          </form> */}
         </motion.div>
       )}
       {isRegistered && (
@@ -51,7 +63,8 @@ function App() {
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <div>初めまして、{username}さん！ 冒険スタートです！！</div>
+            <p>冒険を楽しんでください！</p>
+            {/* <div>初めまして、{username}さん！ 冒険スタートです！！</div> */}
           </motion.div>
           <ImageGallery />
         </>
