@@ -9,6 +9,19 @@ export const GameStateProvider = ({ children }) => {
   const [collectedItems, setCollectedItems] = useState([]);
   const [currentStage, setCurrentStage] = useState(0); // 現在のステージを追跡するステート
 
+  useEffect(() => {
+    // マウント時にlocalStorageからユーザー名を読み込む
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, []);
+
+  useEffect(() => {
+    // usernameステートが変更されたらlocalStorageに保存する
+    localStorage.setItem('username', username);
+  }, [username]);
+
   // ステージを更新する関数
   const nextStage = () => {
     setCurrentStage(currentStage + 1);

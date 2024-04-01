@@ -16,14 +16,22 @@ function App() {
   }, []);
 
 
-  // const handleRegister = (event) => {
-  //   event.preventDefault();
-  //   const name = event.target.elements.username.value; // 正確な要素の参照方法
-  //   localStorage.setItem('username', name);
-  //   setUsername(name);
-  // };
+  const handleRegister = (event) => {
+    event.preventDefault();
+    const name = event.target.elements.username.value; // 正確な要素の参照方法
+    localStorage.setItem('username', name);
+    setUsername(name);
+    setIsRegistered(true); // 登録処理後、登録状態を true に設定
+  };
 
-  // const isRegistered = username.length > 0;
+  // この関数で localStorage からユーザー名を削除
+  const handleClearUsername = () => {
+    localStorage.setItem('username', username);
+    setUsername('');
+    setIsRegistered(false);
+  };
+
+
 
   return (
     <>
@@ -42,18 +50,16 @@ function App() {
              >
              はい
              </button>
-              {/* <form onSubmit={handleRegister} className="registration-form">
+              <form onSubmit={handleRegister} className="registration-form">
             <label htmlFor="username">あなたの名前は？:</label>
             <input
-              type="text"
               id="username"
-              name="username" // input要素にname属性を追加
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
             />
             <button type="submit">登録</button>
-          </form> */}
+          </form>
         </motion.div>
       )}
       {isRegistered && (
@@ -67,6 +73,8 @@ function App() {
             {/* <div>初めまして、{username}さん！ 冒険スタートです！！</div> */}
           </motion.div>
           <ImageGallery />
+          {/* ユーザー名をクリアするボタンを追加 */}
+          <button onClick={handleClearUsername}>ユーザー名をクリア</button>
         </>
       )}
     </>
