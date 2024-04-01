@@ -13,7 +13,6 @@ import { GameStateProvider } from './components/Username/GameStateContext'; // U
 import Title from './components/Title/Title';
 
 
-
 function App() {
   return (
     <GameStateProvider> {/* UserProviderで全体をラップ */}

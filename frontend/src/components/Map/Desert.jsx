@@ -5,7 +5,7 @@ function Desert() {
   const [images, setImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [timer, setTimer] = useState(300); // タイマーを60秒に設定
+  const [timer, setTimer] = useState(60); // タイマーを60秒に設定
   const navigate = useNavigate(); // ナビゲーションのためのフック
 
   useEffect(() => {

@@ -48,7 +48,7 @@ function ImageGallery() {
   };
 
   const getRouteBasedOnImageName = (imageName) => {
-    // ルートの条件分岐
+   // ルートの条件分岐
    // if (imageName.includes('砂漠')) {
    //   return '/desert';
    // } else if (imageName.includes('海')) {

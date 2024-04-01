@@ -7,6 +7,12 @@ const GameStateContext = createContext();
 export const GameStateProvider = ({ children }) => {
   const [username, setUsername] = useState('');
   const [collectedItems, setCollectedItems] = useState([]);
+  const [currentStage, setCurrentStage] = useState(0); // 現在のステージを追跡するステート
+
+  // ステージを更新する関数
+  const nextStage = () => {
+    setCurrentStage(currentStage + 1);
+  };
 
   // アイテムを追加する関数
   const addItem = (item) => {
@@ -32,7 +38,7 @@ export const GameStateProvider = ({ children }) => {
 
 
   return (
-    <GameStateContext.Provider value={{ username, setUsername, collectedItems, addItem }}>
+    <GameStateContext.Provider value={{ username, setUsername, collectedItems, addItem, currentStage, nextStage }}>
       {children}
     </GameStateContext.Provider>
   );

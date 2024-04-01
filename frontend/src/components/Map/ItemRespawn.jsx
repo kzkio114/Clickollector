@@ -6,7 +6,7 @@ const itemNames = ["石", "溶岩石", "火の石", "強い炎の石", "賢者�
 
 function ItemRespawn({ imageUrl, width, height }) {
   const [items, setItems] = useState([]);
-  const { addItem, collectedItems } = useGameState();
+  const { addItem, collectedItems, currentStage } = useGameState();
   // アイテムの取得回数を管理するオブジェクト
 
 
@@ -30,12 +30,20 @@ function ItemRespawn({ imageUrl, width, height }) {
   };
 
   const handleItemClick = (itemName) => {
-    // 「賢者の石」はステージで1つだけ取得可能
-    if (itemName === "賢者の石" && collectedItems.some(item => item.name === "賢者の石")) {
-      return;
+  // 「賢者の石」は各ステージで1つだけ取得可能
+  if (itemName === "賢者の石") {
+    // 現在のステージで既に「賢者の石」が取得されているかチェック
+    const alreadyCollected = collectedItems.some(item => item.name === "賢者の石" && item.stage === currentStage);
+    if (alreadyCollected) {
+      return; // 既に取得されていれば何もしない
     }
+    // 取得されていなければアイテムを追加（ステージ情報も追加）
+    addItem({ name: itemName, count: 1, stage: currentStage });
+  } else {
+    // その他のアイテムの場合は通常通り追加
     addItem({ name: itemName, count: 1 });
-  };
+  }
+};
 
   return (
     <>

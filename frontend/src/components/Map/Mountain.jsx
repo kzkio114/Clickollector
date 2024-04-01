@@ -6,7 +6,7 @@ function Mountain() {
   const [images, setImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [timer, setTimer] = useState(500); // タイマーを60秒に設定
+  const [timer, setTimer] = useState(60); // タイマーを60秒に設定
   const navigate = useNavigate(); // ナビゲーションのためのフック
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });// 画像の読み込み完了時にサイズを取得するための状態
   const [imageKey, setImageKey] = useState(Date.now());// 画像とアイテム配置を更新するための状態変数を追加
@@ -55,7 +55,7 @@ function Mountain() {
     setSelectedImage(images[randomIndex]);
     // 新しい画像が選択されるたびにサイズの状態をリセット
     //setImageSize({ width: 0, height: 0 });
-     // 新しい画像が選択されるたびに key を更新
+    // 新しい画像が選択されるたびに key を更新
     setImageKey(Date.now());
   };
 
@@ -82,7 +82,7 @@ function Mountain() {
           className="w-full h-auto"
           onLoad={onImageLoad}
         />
-        
+
         {/* ItemRespawn コンポーネントに画像サイズを渡す */}
         <ItemRespawn key={imageKey} imageUrl={selectedImage.direct_link} width={imageSize.width} height={imageSize.height} />
           {/* タイマーとボタンを囲むdiv */}
