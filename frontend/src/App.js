@@ -11,6 +11,7 @@ import Mountain from './components/Map/Mountain';
 import Username from './components/Username/Username';
 import { GameStateProvider } from './components/Username/GameStateContext'; // UserContextからUserProviderをインポート
 import Title from './components/Title/Title';
+import ImageMeta from './components/ImageMeta/ImageMetaComponent';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Router>
         <div className="App">
         <Title>Clickollector</Title> {/* アプリのタイトル */}
+        <ImageMeta /> {/* アプリ全体に共通のメタデータを設定 */}
           <Routes>
             <Route path="/" element={
               <>

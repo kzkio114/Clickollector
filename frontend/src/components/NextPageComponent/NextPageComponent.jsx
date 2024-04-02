@@ -1,3 +1,4 @@
+// NextPageComponent.js
 import React, { useEffect, useState } from 'react';
 import { useGameState } from '../Username/GameStateContext'; // 正確なパスに注意
 import { motion } from 'framer-motion';
@@ -20,7 +21,7 @@ function NextPageComponent() {
   }, [collectedItems]);
 
  // コンポーネントのマウント時に localStorage からユーザー名を取得
- useEffect(() => {
+  useEffect(() => {
   const username = localStorage.getItem('username');
   if (username) {
     setUsername(username);
@@ -30,7 +31,19 @@ function NextPageComponent() {
   // Twitterに投稿する関数
   const postToTwitter = () => {
     const appUrl = "https://clickollector-4d5bda395d4c.herokuapp.com";
-    const tweetText = `${username}、合計金額: ${totalPrice}円でした！ #Clickollector ${appUrl}`;
+    let message;
+
+    if (totalPrice >= 200000000) {
+      message = "🎉 すごい！合計金額が2億円以上です！ 🎉";
+    } else if (totalPrice >= 100000000) {
+      message = "🥳 合計金額が1億円以上です！ 🥳";
+    } else if (totalPrice >= 50000000) {
+      message = "😮 合計金額が5000万円以上です！ 😮";
+    } else {
+      message = "高得点を目指して頑張りましょう！";
+    }
+
+    const tweetText = `${username}、${message} 合計金額: ${totalPrice.toLocaleString('ja-JP')}円でした！ #Clickollector ${appUrl}`;
     const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
     window.open(url, '_blank');
   };
@@ -42,7 +55,6 @@ function NextPageComponent() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        {/* ユーザー名が設定されている場合は結果を表示 */}
         <h1>結果</h1>
         <p>ユーザー名: {username}</p>
         <h2>獲得アイテム</h2>
@@ -51,7 +63,16 @@ function NextPageComponent() {
             <li key={index}>{`${item.name} × ${item.count}`}</li>
           ))}
         </ul>
-        <p>合計金額: {totalPrice}円</p>
+        <p>合計金額: {totalPrice.toLocaleString('ja-JP')}円</p>
+          {totalPrice >= 200000000 ? (
+          <p>🎉 すごい！合計金額が2億円以上です！ 🎉</p>
+          ) : totalPrice >= 100000000 ? (
+          <p>🥳 合計金額が1億円以上です！ 🥳</p>
+          ) : totalPrice >= 50000000 ? (
+          <p>😮 合計金額が5000万円以上です！ 😮</p>
+          ) : (
+          <p>高得点を目指して頑張りましょう！</p>
+          )}
         <button onClick={postToTwitter}>Twitterに投稿する</button>
         <h2>プレイありがとう</h2>
       </motion.div>

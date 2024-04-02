@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   
-  get '/special-page', to: 'pages#special'
+  get '/', to: 'pages#special'
 
   
   namespace :api do
