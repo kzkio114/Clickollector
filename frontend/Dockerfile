@@ -34,4 +34,4 @@ RUN bun add serve
 EXPOSE 3000
 
 # serveを使用してビルドされたアプリを提供
-CMD ["bun", "run", "serve", "-s", "build", "-l", "tcp://0.0.0.0:$PORT"]
+CMD sh -c 'serve -s build -l tcp://0.0.0.0:$PORT'
