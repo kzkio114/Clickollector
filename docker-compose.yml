@@ -34,7 +34,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./frontend:/app # フロントのディレクトリ名がfrontendでなければ
-    command: bun start # npmでやる場合はnpmに変更
+    command: yarn start # npmでやる場合はnpmに変更
     ports:
       - "8000:3000"
 volumes:

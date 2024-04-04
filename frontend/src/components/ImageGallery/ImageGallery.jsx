@@ -41,7 +41,6 @@ function ImageGallery() {
     setSelectedImage(images[randomIndex]);
   };
 
-
   const handleImageClick = () => {
     const route = getRouteBasedOnImageName(selectedImage.name);
     navigate(route);

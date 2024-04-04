@@ -3,20 +3,11 @@ FROM --platform=linux/amd64 node:21.5.0
 
 WORKDIR /app
 
-# bunのインストール
-RUN curl -fsSL https://bun.sh/install | bash
-
-# PATHを設定
-ENV PATH="/root/.bun/bin:${PATH}"
-
 # package.jsonとyarn.lockをコピー
 COPY package.json yarn.lock ./
 
 # Tailwind CSSとDaisyUIを含むすべての依存関係をインストール
-RUN bun add tailwindcss@latest postcss@latest autoprefixer@latest daisyui@latest
-
-# 依存関係をインストール
-RUN bun install
+RUN yarn add tailwindcss@latest postcss@latest autoprefixer@latest daisyui@latest
 
 # Tailwind CSSの設定ファイルを生成
 RUN npx tailwindcss init
@@ -24,11 +15,11 @@ RUN npx tailwindcss init
 # その他のファイルをコピー
 COPY . .
 
-# アプリケーションをビルド
-RUN bun run build
+# ビルドコマンドを実行
+RUN yarn build
 
-# serveを含むすべての依存関係をインストール
-RUN bun add serve
+# serveをグローバルにインストール
+RUN yarn global add serve
 
 # ポート3000を公開
 EXPOSE 3000
