@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 
 const itemNames = ["石", "溶岩石", "火の石", "強い炎の石", "賢者の石"];
 
-function ItemRespawn({ imageUrl, width, height }) {
+function ItemRespawn({ imageUrl, width, height, currentStage }) {
   const [items, setItems] = useState([]);
-  const { addItem, collectedItems, currentStage } = useGameState();
+  const { addItem, collectedItems } = useGameState();
   // アイテムの取得回数を管理するオブジェクト
 
   useEffect(() => {
@@ -14,7 +14,7 @@ function ItemRespawn({ imageUrl, width, height }) {
       const newItems = generateRandomItems(10);
       setItems(newItems);
     }
-  }, [imageUrl, width, height]);
+  }, [imageUrl, width, height, currentStage]);
 
   const generateRandomItems = (count) => {
     return Array.from({ length: count }, () => {
@@ -28,7 +28,12 @@ function ItemRespawn({ imageUrl, width, height }) {
     });
   };
 
+  useEffect(() => {
+    console.log('collectedItemsが更新されました', collectedItems);
+  }, [collectedItems]);
+
   const handleItemClick = (itemName) => {
+    console.log(`アイテム"${itemName}"がクリックされました。`);
     // 「賢者の石」は各ステージで1つだけ取得可能
     if (itemName === "賢者の石") {
       // 現在のステージで既に「賢者の石」が取得されているかチェック
