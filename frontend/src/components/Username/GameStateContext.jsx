@@ -54,13 +54,33 @@ const addItem = (item) => {
   });
 };
 
+// アイテムリストを表示する部分のコード
+const displayItems = collectedItems.reduce((acc, item) => {
+  const existingItem = acc.find(i => i.name === item.name);
+  if (existingItem) {
+    // 既にリストにあるアイテムの場合は、そのアイテムの数を増やす
+    existingItem.count += item.count;
+  } else {
+    // 新しいアイテムの場合はリストに追加
+    acc.push({ ...item });
+  }
+  return acc;
+}, []);
+
+// displayItemsを使用してアイテムリストを表示
+displayItems.map(item => (
+  <div key={item.name}>
+    {item.name} × {item.count}
+  </div>
+));
+
   useEffect(() => {
     console.log('GameStateProviderでセットされたユーザー名:', username);
   }, [username]);
 
 
   return (
-    <GameStateContext.Provider value={{ username, setUsername, collectedItems, addItem, currentStage, nextStage }}>
+    <GameStateContext.Provider value={{ username, setUsername, collectedItems, setCollectedItems, addItem, currentStage, nextStage }}>
       {children}
     </GameStateContext.Provider>
   );

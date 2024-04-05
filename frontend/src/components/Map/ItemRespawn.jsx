@@ -77,13 +77,19 @@ function ItemRespawn({ imageUrl, width, height, currentStage }) {
         ))}
       </div>
       <div className="absolute right-0 top-0 p-4">
-      <h2 className="text-lg font-semibold text-white">獲得アイテム:</h2>
-      {collectedItems.map((item, index) => (
-      <p key={index} className="text-white">{`${item.name} × ${item.count}`}</p>
-    ))}
-    </div>
-    </>
-  );
-}
+  <h2 className="text-lg font-semibold text-white">獲得アイテム:</h2>
+  {Array.from(collectedItems.reduce((map, item) => {
+    if (!map.has(item.name)) {
+      map.set(item.name, { ...item, count: 0 });
+    }
+    map.get(item.name).count += item.count;
+    return map;
+  }, new Map()).values()).map((item, index) => (
+    <p key={index} className="text-white">{`${item.name} × ${item.count}`}</p>
+  ))}
+</div>
+      </>
+    );
+  }
 
 export default ItemRespawn;

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useGameState } from '../Username/GameStateContext'; // 正確なパスに注意
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const itemPrices = {
   "石": 10,
@@ -12,8 +13,9 @@ const itemPrices = {
 };
 
 function NextPageComponent() {
-  const { username, setUsername, collectedItems} = useGameState();
+  const { username, setUsername, collectedItems, setCollectedItems } = useGameState(); // setCollectedItemsを追加
   const [totalPrice, setTotalPrice] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const price = collectedItems.reduce((acc, item) => acc + (itemPrices[item.name] * item.count), 0);
@@ -33,12 +35,12 @@ function NextPageComponent() {
     const appUrl = "https://clickollector-4d5bda395d4c.herokuapp.com";
     let message;
 
-    if (totalPrice >= 200000000) {
-      message = "🎉 すごい！合計金額が2億円以上です！ 🎉";
-    } else if (totalPrice >= 100000000) {
-      message = "🥳 合計金額が1億円以上です！ 🥳";
-    } else if (totalPrice >= 50000000) {
-      message = "😮 合計金額が5000万円以上です！ 😮";
+    if (totalPrice >= 100000000) {
+      message = "🎉 すごい！合計金額が1億円以上です！ 🎉";
+    } else if (totalPrice >= 10000000) {
+      message = "🥳 合計金額が1000万円以上です！ 🥳";
+    } else if (totalPrice >= 5000000) {
+      message = "😮 合計金額が500万円以上です！ 😮";
     } else {
       message = "高得点を目指して頑張りましょう！";
     }
@@ -47,6 +49,20 @@ function NextPageComponent() {
     const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
     window.open(url, '_blank');
   };
+
+ // ホームに戻る関数を修正
+const goToHome = () => {
+  // アイテムをリセット
+  setCollectedItems([]); // こちらを修正
+
+  // ホームページに遷移
+  navigate('/');
+};
+
+// ランキングページへ遷移する関数（ランキングページがまだない場合は仮の機能）
+const goToRanking = () => {
+  navigate('/ranking'); // '/ranking' はランキングページのパスを指す
+};
 
   return (
     <div>
@@ -59,23 +75,33 @@ function NextPageComponent() {
         <p>ユーザー名: {username}</p>
         <h2>獲得アイテム</h2>
         <ul>
-          {collectedItems.map((item, index) => (
-            <li key={index}>{`${item.name} × ${item.count}`}</li>
-          ))}
-        </ul>
+        {Array.from(collectedItems.reduce((map, item) => {
+            if (!map.has(item.name)) {
+            map.set(item.name, { ...item, count: 0 });
+        }
+            map.get(item.name).count += item.count;
+          return map;
+        }, new Map()).values()).map((item, index) => (
+        <p key={index} className="text-back">{`${item.name} × ${item.count}`}</p>
+        ))}
+      </ul>
         <p>合計金額: {totalPrice.toLocaleString('ja-JP')}円</p>
-          {totalPrice >= 200000000 ? (
-          <p>🎉 すごい！合計金額が2億円以上です！ 🎉</p>
-          ) : totalPrice >= 100000000 ? (
-          <p>🥳 合計金額が1億円以上です！ 🥳</p>
-          ) : totalPrice >= 50000000 ? (
-          <p>😮 合計金額が5000万円以上です！ 😮</p>
+          {totalPrice >= 100000000 ? (
+          <p>🎉 すごい！合計金額が1億円以上です！ 🎉</p>
+          ) : totalPrice >= 10000000 ? (
+          <p>🥳 合計金額が1000万円以上です！ 🥳</p>
+          ) : totalPrice >= 5000000 ? (
+          <p>😮 合計金額が500万円以上です！ 😮</p>
           ) : (
           <p>高得点を目指して頑張りましょう！</p>
           )}
         <button onClick={postToTwitter}>Twitterに投稿する</button>
         <h2>プレイありがとう</h2>
       </motion.div>
+      <div>
+      <button onClick={goToHome}>ホームに戻る</button>
+      <button onClick={goToRanking}>ランキングを見る</button>
+    </div>
     </div>
   );
 }
