@@ -69,7 +69,7 @@ function ImageGallery() {
           <meta name="twitter:site" content="@kzkio_114" />
           <meta name="twitter:title" content="Clickollector" />
           <meta name="description" content="画像をクリックしてアイテムを探してお金持ちになろう！！" />
-          <meta name="twitter:image" content={selectedImage?.direct_link || 'https://lh3.googleusercontent.com/d/1AfcdsCMSQ-5Z0M9-Sj5cymEDCCJUCaCg'} />
+          <meta name="twitter:image" content="https://lh3.googleusercontent.com/d/1AfcdsCMSQ-5Z0M9-Sj5cymEDCCJUCaCg" />
         </Helmet>
         {isLoading ? (
           <p>Loading...</p>
