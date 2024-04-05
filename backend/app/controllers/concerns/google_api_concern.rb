@@ -20,11 +20,11 @@ require 'googleauth/stores/file_token_store'
         client_id = Google::Auth::ClientId.from_hash(JSON.parse(ENV['GOOGLE_CLIENT_SECRET']))
         token_store = Google::Auth::Stores::FileTokenStore.new(file: Rails.root.join('config', 'tokens.yaml'))
         authorizer = Google::Auth::UserAuthorizer.new(client_id, Google::Apis::DriveV3::AUTH_DRIVE_READONLY, token_store)
-        user_id = 'kzkio114@gmail.com'
+        user_id = ENV['GOOGLE_ID']
         credentials = authorizer.get_credentials(user_id)
         service.authorization = credentials
     
-        folder_id = '113FpN_5gjtwSbYGSNo9li4DlXomt4lIN'
+        folder_id = ENV['GOOGLE_FOLDER_ID']
         response = service.list_files(
           q: "('#{folder_id}' in parents) and (mimeType='image/jpeg' or mimeType='image/png' or mimeType='image/webp')",
           spaces: 'drive',

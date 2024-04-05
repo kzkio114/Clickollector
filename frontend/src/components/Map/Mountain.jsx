@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ItemRespawn from './ItemRespawn'; // ItemRespawn コンポーネントをインポート
+import { useGameState } from '../Username/GameStateContext';// 正しいパスに修正してください
 
 function Mountain() {
   const [images, setImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [timer, setTimer] = useState(500); // タイマーを60秒に設定
+  const [timer, setTimer] = useState(60); // タイマーを60秒に設定
   const navigate = useNavigate(); // ナビゲーションのためのフック
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });// 画像の読み込み完了時にサイズを取得するための状態
   const [imageKey, setImageKey] = useState(Date.now());// 画像とアイテム配置を更新するための状態変数を追加
+  const [currentStage, setCurrentStage] = useState(1);
+  const { nextStage } = useGameState(); // nextStage 関数をコンテキストから取得
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -42,21 +46,24 @@ function Mountain() {
   }, [timer, navigate]);
 
    // 画像読み込み完了時のハンドラ
-   const onImageLoad = ({ target: img }) => {
+  const onImageLoad = ({ target: img }) => {
     setImageSize({
       width: img.offsetWidth,
       height: img.offsetHeight,
     });
   };
 
-   // ランダムな画像を選択する関数
-   const selectRandomImage = () => {
+  // 「次のステージを表示」ボタンのクリックハンドラ
+  const goToNextStage = () => {
+    nextStage(); // GameStateContextから提供されるnextStage関数を使用してステージを進める
+    selectRandomImage(); // 新しい画像をランダムに選択
+  };
+
+  // ランダムな画像を選択する関数（ステージ更新は削除）
+  const selectRandomImage = () => {
     const randomIndex = Math.floor(Math.random() * images.length);
     setSelectedImage(images[randomIndex]);
-    // 新しい画像が選択されるたびにサイズの状態をリセット
-    //setImageSize({ width: 0, height: 0 });
-     // 新しい画像が選択されるたびに key を更新
-    setImageKey(Date.now());
+    setImageKey(Date.now()); // 新しい画像が選択されるたびに key を更新
   };
 
   // コンポーネントがマウントされた時に初めてランダムな画像を選択
@@ -82,9 +89,9 @@ function Mountain() {
           className="w-full h-auto"
           onLoad={onImageLoad}
         />
-        
+
         {/* ItemRespawn コンポーネントに画像サイズを渡す */}
-        <ItemRespawn key={imageKey} imageUrl={selectedImage.direct_link} width={imageSize.width} height={imageSize.height} />
+        <ItemRespawn key={imageKey} imageUrl={selectedImage.direct_link} width={imageSize.width} height={imageSize.height} currentStage={currentStage} />
           {/* タイマーとボタンを囲むdiv */}
           <div className="absolute top-0 left-0 p-4">
             {/* タイマー表示 */}
@@ -93,7 +100,7 @@ function Mountain() {
             </p>
             {/* ボタン */}
             <button
-              onClick={() => selectRandomImage(images)}
+              onClick={goToNextStage}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
             >
               次のステージを表示

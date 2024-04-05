@@ -11,6 +11,7 @@ import Mountain from './components/Map/Mountain';
 import Username from './components/Username/Username';
 import { GameStateProvider } from './components/Username/GameStateContext'; // UserContextからUserProviderをインポート
 import Title from './components/Title/Title';
+import RankingPage from './components/RankingPage/RankingPage';
 
 
 
@@ -35,6 +36,7 @@ function App() {
             <Route path="/desert" element={<Desert />} />
             <Route path="/sea" element={<Sea />} />
             <Route path="/mountain" element={<Mountain />} />
+            <Route path="/ranking" element={<RankingPage />} />
           </Routes>
         </div>
       </Router>

@@ -1,6 +1,8 @@
+// NextPageComponent.js
 import React, { useEffect, useState } from 'react';
 import { useGameState } from '../Username/GameStateContext'; // 正確なパスに注意
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const itemPrices = {
   "石": 10,
@@ -11,80 +13,97 @@ const itemPrices = {
 };
 
 function NextPageComponent() {
-  const { setUsername, username, collectedItems } = useGameState();
+  const { username, setUsername, collectedItems, setCollectedItems } = useGameState(); // setCollectedItemsを追加
   const [totalPrice, setTotalPrice] = useState(0);
-  const [localUsername, setLocalUsername] = useState(""); // ユーザー名入力用のローカルステート
-  const [isUsernameSubmitted, setIsUsernameSubmitted] = useState(false); // ユーザー名が送信されたかどうか
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // アイテムの合計金額を計算
     const price = collectedItems.reduce((acc, item) => acc + (itemPrices[item.name] * item.count), 0);
     setTotalPrice(price);
   }, [collectedItems]);
 
-  const handleUsernameChange = (e) => {
-    setLocalUsername(e.target.value);
+ // コンポーネントのマウント時に localStorage からユーザー名を取得
+  useEffect(() => {
+  const username = localStorage.getItem('username');
+  if (username) {
+    setUsername(username);
+  }
+}, []);
+
+  // Twitterに投稿する関数
+  const postToTwitter = () => {
+    const appUrl = "https://clickollector-4d5bda395d4c.herokuapp.com";
+    let message;
+
+    if (totalPrice >= 100000000) {
+      message = "🎉 すごい！合計金額が1億円以上です！ 🎉";
+    } else if (totalPrice >= 10000000) {
+      message = "🥳 合計金額が1000万円以上です！ 🥳";
+    } else if (totalPrice >= 5000000) {
+      message = "😮 合計金額が500万円以上です！ 😮";
+    } else {
+      message = "高得点を目指して頑張りましょう！";
+    }
+
+    const tweetText = `${username}、${message} 合計金額: ${totalPrice.toLocaleString('ja-JP')}円でした！ #Clickollector ${appUrl}`;
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+    window.open(url, '_blank');
   };
 
-  const handleUsernameSubmit = (e) => {
-    e.preventDefault();
-    setUsername(localUsername);
-    setIsUsernameSubmitted(true); // ユーザー名が送信されたとマーク
-  };
+ // ホームに戻る関数を修正
+const goToHome = () => {
+  // アイテムをリセット
+  setCollectedItems([]); // こちらを修正
 
-// Twitterに投稿する関数
-const postToTwitter = () => {
-  // アプリのURL
-  const appUrl = "https://clickollector-4d5bda395d4c.herokuapp.com";
-  const tweetText = `${username}、合計金額: ${totalPrice}円でした！ #Clickollector ${appUrl}`;
-  const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
-  window.open(url, '_blank');
+  // ホームページに遷移
+  navigate('/');
 };
 
-return (
-  <div>
-    <motion.div
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 1 }}
-    >
-      {username && isUsernameSubmitted ? (
-        // ユーザー名が設定されており、送信されている場合は結果を表示
-        <>
-          <h1>結果</h1>
-          <p>ユーザー名: {username}</p>
-          <h2>獲得アイテム</h2>
-          <ul>
-            {collectedItems.map((item, index) => (
-              <li key={index}>{`${item.name} × ${item.count}`}</li>
-            ))}
-          </ul>
-          <p>合計金額: {totalPrice}円</p>
-          <motion.div
-            initial={{ x: 200, opacity: 0 }} // 初期状態 motion　左から右に移動し、透明度を0から1に変化
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-          <button onClick={postToTwitter}>Twitterに投稿する</button>
-          </motion.div>
-          <h2>プレイありがとう</h2>
-        </>
-      ) : (
-        // ユーザー名が設定されていない、または送信されていない場合はフォームを表示
-        <form onSubmit={handleUsernameSubmit}>
-          <label htmlFor="username">そういえば、あなたの名前は？</label>
-          <input
-            id="username"
-            value={localUsername}
-            onChange={handleUsernameChange}
-            required
-          />
-          <button type="submit">登録</button>
-        </form>
-      )}
-    </motion.div>
-  </div>
-);
+// ランキングページへ遷移する関数（ランキングページがまだない場合は仮の機能）
+const goToRanking = () => {
+  navigate('/ranking'); // '/ranking' はランキングページのパスを指す
+};
+
+  return (
+    <div>
+      <motion.div
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <h1>結果</h1>
+        <p>ユーザー名: {username}</p>
+        <h2>獲得アイテム</h2>
+        <ul>
+        {Array.from(collectedItems.reduce((map, item) => {
+            if (!map.has(item.name)) {
+            map.set(item.name, { ...item, count: 0 });
+        }
+            map.get(item.name).count += item.count;
+          return map;
+        }, new Map()).values()).map((item, index) => (
+        <p key={index} className="text-back">{`${item.name} × ${item.count}`}</p>
+        ))}
+      </ul>
+        <p>合計金額: {totalPrice.toLocaleString('ja-JP')}円</p>
+          {totalPrice >= 100000000 ? (
+          <p>🎉 すごい！合計金額が1億円以上です！ 🎉</p>
+          ) : totalPrice >= 10000000 ? (
+          <p>🥳 合計金額が1000万円以上です！ 🥳</p>
+          ) : totalPrice >= 5000000 ? (
+          <p>😮 合計金額が500万円以上です！ 😮</p>
+          ) : (
+          <p>高得点を目指して頑張りましょう！</p>
+          )}
+        <button onClick={postToTwitter}>Twitterに投稿する</button>
+        <h2>プレイありがとう</h2>
+      </motion.div>
+      <div>
+      <button onClick={goToHome}>ホームに戻る</button>
+      <button onClick={goToRanking}>ランキングを見る</button>
+    </div>
+    </div>
+  );
 }
 
 export default NextPageComponent;

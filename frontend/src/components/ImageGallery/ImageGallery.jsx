@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 function ImageGallery() {
   const [images, setImages] = useState([]);
@@ -41,14 +42,13 @@ function ImageGallery() {
     setSelectedImage(images[randomIndex]);
   };
 
-
   const handleImageClick = () => {
     const route = getRouteBasedOnImageName(selectedImage.name);
     navigate(route);
   };
 
   const getRouteBasedOnImageName = (imageName) => {
-    // ルートの条件分岐
+   // ルートの条件分岐
    // if (imageName.includes('砂漠')) {
    //   return '/desert';
    // } else if (imageName.includes('海')) {
@@ -60,26 +60,40 @@ function ImageGallery() {
   };
 
   return (
-    <div>
-      {showButton && !isLoading && ( // ボタンはロード中でない、かつshowButtonがtrueの時のみ表示
-        <button
-          onClick={showRandomImage}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          マップ選択！！
-        </button>
-      )}
-      {showImage && selectedImage.direct_link && (
-        <div>
-          <img
-            src={selectedImage.direct_link}
-            alt={selectedImage.name}
-            style={{ width: '500px', height: 'auto' }}
-            onClick={handleImageClick}
-          />
-        </div>
-      )}
-    </div>
+    <HelmetProvider>
+      <div className="application">
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Clickollector</title>
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:site" content="@kzkio_114" />
+          <meta name="twitter:title" content="Clickollector" />
+          <meta name="description" content="画像をクリックしてアイテムを探してお金持ちになろう！！" />
+          <meta name="twitter:image" content={selectedImage?.direct_link || 'https://lh3.googleusercontent.com/d/1AfcdsCMSQ-5Z0M9-Sj5cymEDCCJUCaCg'} />
+        </Helmet>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <>
+            {selectedImage.direct_link ? (
+              <img
+              src={selectedImage.direct_link}
+              alt={selectedImage.name}
+              style={{ width: '500px', height: 'auto' }}
+              onClick={handleImageClick}
+              />
+            ) : (
+              <button
+                onClick={selectRandomImage}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                マップ選択！！
+              </button>
+            )}
+          </>
+        )}
+      </div>
+    </HelmetProvider>
   );
 }
 

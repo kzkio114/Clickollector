@@ -7,24 +7,72 @@ const GameStateContext = createContext();
 export const GameStateProvider = ({ children }) => {
   const [username, setUsername] = useState('');
   const [collectedItems, setCollectedItems] = useState([]);
+  const [currentStage, setCurrentStage] = useState(0); // 現在のステージを追跡するステート
 
-  // アイテムを追加する関数
-  const addItem = (item) => {
-    // 既存のアイテムを検索
-    const existingItem = collectedItems.find(i => i.name === item.name);
-
-    if (existingItem) {
-      // 既存のアイテムが見つかった場合、数量を増やす
-      setCollectedItems(
-        collectedItems.map(i =>
-          i.name === item.name ? { ...i, count: i.count + 1 } : i
-        )
-      );
-    } else {
-      // 新しいアイテムの場合、リストに追加
-      setCollectedItems([...collectedItems, { ...item, count: 1 }]);
+  useEffect(() => {
+    // マウント時にlocalStorageからユーザー名を読み込む
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      setUsername(storedUsername);
     }
+  }, []);
+
+  useEffect(() => {
+    // usernameステートが変更されたらlocalStorageに保存する
+    localStorage.setItem('username', username);
+  }, [username]);
+
+  // ステージを更新する関数
+  const nextStage = () => {
+    setCurrentStage(currentStage + 1);
   };
+
+// アイテムを追加する関数
+const addItem = (item) => {
+  setCollectedItems((prevCollectedItems) => {
+    // 「賢者の石」の取得ロジック
+    if (item.name === "賢者の石") {
+      const alreadyCollectedInStage = prevCollectedItems.some(i => i.name === "賢者の石" && i.stage === currentStage);
+      if (alreadyCollectedInStage) {
+        // 既に取得している場合は、何も変更せずに現在のアイテムリストをそのまま返す
+        console.log("このステージでは既に賢者の石を取得しています。");
+        return prevCollectedItems;
+      }
+      // 未取得の場合は、新しいアイテムをアイテムリストに追加する
+      return [...prevCollectedItems, { ...item, count: 1, stage: currentStage }];
+    } else {
+      // 「賢者の石」以外のアイテムの取得ロジック
+      const existingItem = prevCollectedItems.find(i => i.name === item.name);
+      if (existingItem) {
+        // 既にリストにあるアイテムの場合は、そのアイテムの数を増やす
+        return prevCollectedItems.map(i => i.name === item.name ? { ...i, count: i.count + 1 } : i);
+      } else {
+        // 新しいアイテムの場合はリストに追加
+        return [...prevCollectedItems, { ...item, count: 1 }];
+      }
+    }
+  });
+};
+
+// アイテムリストを表示する部分のコード
+const displayItems = collectedItems.reduce((acc, item) => {
+  const existingItem = acc.find(i => i.name === item.name);
+  if (existingItem) {
+    // 既にリストにあるアイテムの場合は、そのアイテムの数を増やす
+    existingItem.count += item.count;
+  } else {
+    // 新しいアイテムの場合はリストに追加
+    acc.push({ ...item });
+  }
+  return acc;
+}, []);
+
+// displayItemsを使用してアイテムリストを表示
+displayItems.map(item => (
+  <div key={item.name}>
+    {item.name} × {item.count}
+  </div>
+));
 
   useEffect(() => {
     console.log('GameStateProviderでセットされたユーザー名:', username);
@@ -32,7 +80,7 @@ export const GameStateProvider = ({ children }) => {
 
 
   return (
-    <GameStateContext.Provider value={{ username, setUsername, collectedItems, addItem }}>
+    <GameStateContext.Provider value={{ username, setUsername, collectedItems, setCollectedItems, addItem, currentStage, nextStage }}>
       {children}
     </GameStateContext.Provider>
   );

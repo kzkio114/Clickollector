@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  
-  root "pages#index"
-  
+
+  get '/', to: 'pages#special'
+
+
   namespace :api do
     namespace :v1 do
       resources :images, only: [:index]
