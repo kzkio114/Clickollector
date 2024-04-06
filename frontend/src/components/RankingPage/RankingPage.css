@@ -1,0 +1,11 @@
+/* CSS */
+.ranking-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  .ranking-left {
+    width: 50%;
+  }
+  .ranking-right {
+    width: 50%;
+  }
