@@ -77,7 +77,6 @@ const goToRanking = async () => {
   }
 };
 
-
 // ローカルランキングを更新する関数（オプション）
 const updateLocalRanking = () => {
   let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
