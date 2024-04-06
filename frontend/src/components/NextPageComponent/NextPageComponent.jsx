@@ -82,20 +82,17 @@ const goToRanking = async () => {
 const updateRanking = async () => {
   const newEntry = { username: username, score: totalPrice };
 
-  console.log(process.env.REACT_APP_API_URL)
-
   // バックエンドに新しいランキングエントリーをPOSTリクエストで送信
   try {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/rankings`, {
+    const response = await fetch('バックエンドのエンドポイントURL', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ ranking: newEntry }),
+      body: JSON.stringify(newEntry),
     });
     if (!response.ok) {
-      const errorText = await response.text(); // もしくは response.json() もしそのレスポンスがJSONの場合
-      throw new Error(`Server response wasn't OK: ${errorText}`);
+      throw new Error("Server response wasn't OK");
     }
     // ここで必要に応じてレスポンスを処理
   } catch (error) {
