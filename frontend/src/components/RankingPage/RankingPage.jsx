@@ -9,19 +9,6 @@ function RankingPage() {
     setRanking(loadedRanking);
   }, []);
 
-  // ランキング情報を更新する関数
-  const updateRanking = (username, totalPrice) => {
-    let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
-    const newEntry = { username, score: totalPrice };
-
-    ranking.push(newEntry);
-    ranking.sort((a, b) => b.score - a.score); // スコアで降順にソート
-    ranking = ranking.slice(0, 10); // トップ10のみを保持
-
-    localStorage.setItem('ranking', JSON.stringify(ranking));
-    setRanking(ranking); // コンポーネントの状態を更新
-  };
-
   return (
     <div>
       <h1>ランキング</h1>

@@ -4,6 +4,7 @@ import { useGameState } from '../Username/GameStateContext'; // 正確なパス�
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
+
 const itemPrices = {
   "石": 10,
   "溶岩石": 550,
@@ -11,6 +12,7 @@ const itemPrices = {
   "強い炎の石": 7000,
   "賢者の石": 1000000
 };
+
 
 function NextPageComponent() {
   const { username, setUsername, collectedItems, setCollectedItems } = useGameState(); // setCollectedItemsを追加
@@ -59,10 +61,63 @@ const goToHome = () => {
   navigate('/');
 };
 
-// ランキングページへ遷移する関数（ランキングページがまだない場合は仮の機能）
-const goToRanking = () => {
-  navigate('/ranking'); // '/ranking' はランキングページのパスを指す
+// ランキングページへ遷移する関数
+const goToRanking = async () => {
+  try {
+    // バックエンドにランキングデータを送信し、
+    // ローカルストレージにも保存する
+    await updateRanking();
+    updateLocalRanking(); // こちらは非同期ではないのでawaitは不要
+
+    // ランキングページへ遷移
+    navigate('/ranking');
+  } catch (error) {
+    console.error('Ranking update failed:', error);
+    // エラーハンドリングをここに記述
+  }
 };
+
+
+// ランキングを更新し、バックエンドに送信する関数
+const updateRanking = async () => {
+  const newEntry = { username: username, score: totalPrice };
+
+  // バックエンドに新しいランキングエントリーをPOSTリクエストで送信
+  try {
+    const response = await fetch('バックエンドのエンドポイントURL', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newEntry),
+    });
+    if (!response.ok) {
+      throw new Error("Server response wasn't OK");
+    }
+    // ここで必要に応じてレスポンスを処理
+  } catch (error) {
+    console.error('Error posting ranking:', error);
+  }
+};
+
+// ローカルランキングを更新する関数（オプション）
+const updateLocalRanking = () => {
+  let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+  const newEntry = { username: username, score: totalPrice };
+
+  // 新しいスコアをランキングに追加
+  ranking.push(newEntry);
+
+  // スコアでランキングを降順にソート
+  ranking.sort((a, b) => b.score - a.score);
+
+  // ランキングをトップ10に制限
+  ranking = ranking.slice(0, 10);
+
+  // ランキングをローカルストレージに保存
+  localStorage.setItem('ranking', JSON.stringify(ranking));
+};
+
 
   return (
     <div>

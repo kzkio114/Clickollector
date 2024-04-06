@@ -25,7 +25,7 @@ function ItemSearch() {
   }, [searchTerm, items]);
 
    // handleSearch関数の実装
-const handleSearch = () => {
+  const handleSearch = () => {
   // 入力された検索語に基づいてアイテムを検索するAPIエンドポイントにリクエストを送信
   fetch(`${process.env.REACT_APP_API_URL}/api/v1/items/search?keyword=${encodeURIComponent(searchTerm)}`)
     .then(response => {
