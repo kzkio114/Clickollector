@@ -77,7 +77,6 @@ const goToRanking = async () => {
   }
 };
 
-
 // ランキングを更新し、バックエンドに送信する関数
 const updateRanking = async () => {
   const newEntry = { username: username, score: totalPrice };
@@ -99,6 +98,7 @@ const updateRanking = async () => {
     console.error('Error posting ranking:', error);
   }
 };
+
 
 // ローカルランキングを更新する関数（オプション）
 const updateLocalRanking = () => {
