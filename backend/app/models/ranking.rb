@@ -1,2 +1,0 @@
-class Ranking < ApplicationRecord
-end

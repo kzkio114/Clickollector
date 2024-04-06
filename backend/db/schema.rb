@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_06_023459) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_18_160500) do
   create_table "armors", charset: "utf8mb3", force: :cascade do |t|
     t.string "name"
     t.integer "defense_power"
@@ -33,13 +33,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_06_023459) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "effect"
-  end
-
-  create_table "rankings", charset: "utf8mb3", force: :cascade do |t|
-    t.string "username"
-    t.integer "score"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "weapons", charset: "utf8mb3", force: :cascade do |t|
