@@ -77,6 +77,29 @@ const goToRanking = async () => {
   }
 };
 
+// ランキングを更新し、バックエンドに送信する関数
+const updateRanking = async () => {
+  const newEntry = { username: username, score: totalPrice };
+
+  // バックエンドに新しいランキングエントリーをPOSTリクエストで送信
+  try {
+    const response = await fetch('バックエンドのエンドポイントURL', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newEntry),
+    });
+    if (!response.ok) {
+      throw new Error("Server response wasn't OK");
+    }
+    // ここで必要に応じてレスポンスを処理
+  } catch (error) {
+    console.error('Error posting ranking:', error);
+  }
+};
+
+
 // ローカルランキングを更新する関数（オプション）
 const updateLocalRanking = () => {
   let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
