@@ -58,7 +58,7 @@ const goToHome = () => {
   setCollectedItems([]); // こちらを修正
 
   // ホームページに遷移
-  navigate('/');
+  navigate('/'); // ユーザーをホームへリダイレクト
 };
 
 // ランキングページへ遷移する関数
@@ -69,11 +69,10 @@ const goToRanking = async () => {
     await updateRanking();
     updateLocalRanking(); // こちらは非同期ではないのでawaitは不要
 
-    // ランキングページへ遷移
-    navigate('/ranking');
+    navigate('/', { replace: true }); // ナビゲーションスタックを置き換え
+    navigate('/ranking'); // ランキングページへ移動
   } catch (error) {
     console.error('Ranking update failed:', error);
-    // エラーハンドリングをここに記述
   }
 };
 

@@ -39,7 +39,7 @@ function RankingPage() {
   const loadRecentLocalScores = () => {
     const storedData = JSON.parse(localStorage.getItem('ranking')) || [];
     // 最新5件の成績を取得
-    const recentScores = storedData.slice(-5).reverse();
+    const recentScores = storedData.slice(-10).reverse();
     setRecentLocalScores(recentScores);
   };
 
@@ -48,31 +48,41 @@ function RankingPage() {
 }, []);
 
 return (
-  <div className="flex gap-4"> {/* flexとgapでレイアウト調整 */}
-    <div className="flex-1 border p-4 rounded-lg flex flex-col"> {/* flex-1で均等に、border,padding,roundedでスタイル調整 */}
-      <h1 className="text-center mb-4">みんなのランキング</h1> {/* text-centerで中央揃え */}
-      <ol>
-        {onlineRanking.map((entry, index) => (
-          <li key={index} className="flex justify-between py-2"> {/* pyで縦のパディング調整 */}
-            <span>{index + 1}. {entry.username}</span>
-            <span>累計 {entry.totalScore.toLocaleString('ja-JP')}円</span>
-            <span>最高 {entry.highestScore.toLocaleString('ja-JP')}円</span>
+  <div className="container mx-auto p-1">
+    <div className="flex justify-center gap-8">
+      {/* みんなのランキング */}
+      <div className="w-1/2 bg-white rounded-lg shadow-lg p-4">
+        <h2 className="text-xl text-center font-semibold mb-4">みんなのランキング</h2>
+        {/* ランキングのリスト */}
+        <ol>
+          {onlineRanking.map((entry, index) => (
+            <li key={index} className="flex justify-between py-1">
+            <div className="bg-blue-50 p-2 rounded w-full text-center">
+            <span className="mr-7">{index + 1}. {entry.username}</span>
+            <span className="mr-5">最高 {entry.highestScore.toLocaleString('ja-JP')}円</span>
+            <span className="mr-5">累計 {entry.totalScore.toLocaleString('ja-JP')}円</span>
+            </div>
           </li>
         ))}
       </ol>
     </div>
 
-    <div className="flex-1 border p-4 rounded-lg overflow-y-auto max-h-96"> {/* overflow-y-autoでスクロール可能に、max-hで高さ制限 */}
-      <h1 className="text-center mb-4">最近の成績</h1>
-      <ul className="list-none pl-0">
-        {recentLocalScores.map((score, index) => (
-          <li key={index} className="py-2"> {/* pyで縦のパディング調整 */}
-            {score.date} - {score.username}: {score.score}点
-          </li>
-        ))}
-      </ul>
+      {/* 最近の成績 */}
+      <div className="w-1/2 bg-white rounded-lg shadow-lg p-4">
+        <h2 className="text-xl text-center font-semibold mb-4">最近の成績</h2>
+        {/* 成績のリスト */}
+        <div className="flex flex-wrap justify-center">
+          {recentLocalScores.map((score, index) => (
+            <div key={index} className="w-1/2 p-2">
+                <div className="bg-blue-50 p-2 rounded">
+                  {score.date} {score.username} {score.score.toLocaleString()}円
+              </div>
+            </div>
+          ))}
+      </div>
     </div>
   </div>
+</div>
 );
 }
 
