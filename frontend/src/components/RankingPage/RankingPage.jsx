@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useGameState } from '../Username/GameStateContext'; // 正確なパスに注意
+
 
 function RankingPage() {
   const [onlineRanking, setOnlineRanking] = useState([]);
   const [recentLocalScores, setRecentLocalScores] = useState([]);
+  const { setCollectedItems } = useGameState(); // ここで`setCollectedItems`を取得
   const navigate = useNavigate(); // ナビゲート関数を取得
 
   useEffect(() => {
@@ -51,12 +54,8 @@ function RankingPage() {
 
  // ホームに戻る関数
   const goToHome = () => {
+    setCollectedItems([]); // アイテムをリセット
     navigate('/');
-  };
-
-// 次のページに進む関数
-  const goToNext = () => {
-    navigate('/next');
   };
 
 
@@ -100,7 +99,7 @@ function RankingPage() {
            {/* ボタンセクション */}
         <div className="flex justify-center">
         <button
-          onClick={() => navigate('/')}
+          onClick={goToHome}
           className="bg-blue-300 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded mx-2 mt-5"
         >
           ホームに戻る
