@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function RankingPage() {
   const [onlineRanking, setOnlineRanking] = useState([]);
   const [recentLocalScores, setRecentLocalScores] = useState([]);
+  const navigate = useNavigate(); // ナビゲート関数を取得
 
   useEffect(() => {
     // オンラインランキングデータをAPIから取得して加工する
@@ -47,43 +49,71 @@ function RankingPage() {
   loadRecentLocalScores();
 }, []);
 
-return (
-  <div className="container mx-auto p-1">
-    <div className="flex justify-center gap-8">
-      {/* みんなのランキング */}
-      <div className="w-1/2 bg-white rounded-lg shadow-lg p-4">
-        <h2 className="text-xl text-center font-semibold mb-4">みんなのランキング</h2>
-        {/* ランキングのリスト */}
-        <ol>
-          {onlineRanking.map((entry, index) => (
-            <li key={index} className="flex justify-between py-1">
-            <div className="bg-blue-50 p-2 rounded w-full text-center">
-            <span className="mr-7">{index + 1}. {entry.username}</span>
-            <span className="mr-5">最高 {entry.highestScore.toLocaleString('ja-JP')}円</span>
-            <span className="mr-5">累計 {entry.totalScore.toLocaleString('ja-JP')}円</span>
-            </div>
-          </li>
-        ))}
-      </ol>
-    </div>
+ // ホームに戻る関数
+  const goToHome = () => {
+    navigate('/');
+  };
 
-      {/* 最近の成績 */}
-      <div className="w-1/2 bg-white rounded-lg shadow-lg p-4">
-        <h2 className="text-xl text-center font-semibold mb-4">最近の成績</h2>
-        {/* 成績のリスト */}
-        <div className="flex flex-wrap justify-center">
-          {recentLocalScores.map((score, index) => (
-            <div key={index} className="w-1/2 p-2">
+// 次のページに進む関数
+  const goToNext = () => {
+    navigate('/next');
+  };
+
+
+  return (
+    <div className="container mx-auto p-1">
+      <div className="flex justify-center gap-8">
+        {/* みんなのランキング */}
+        <div className="w-1/2 bg-white rounded-lg shadow-lg p-4">
+          <h2 className="text-xl text-center font-semibold mb-4">みんなのランキング</h2>
+          {/* ランキングのリスト */}
+          <ol>
+            {onlineRanking.map((entry, index) => (
+              <li key={index} className="flex justify-between py-1">
+                <div className="bg-blue-50 p-2 rounded w-full text-center">
+                  <span className="mr-7">{index + 1}. {entry.username}</span>
+                  <span className="mr-5">最高 {entry.highestScore.toLocaleString('ja-JP')}円</span>
+                  <span className="mr-5">累計 {entry.totalScore.toLocaleString('ja-JP')}円</span>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        {/* 最近の成績 */}
+
+        <div className="w-1/2 bg-white rounded-lg shadow-lg p-4">
+          <h2 className="text-xl text-center font-semibold mb-4">最近の成績</h2>
+          {/* 成績のリスト */}
+          <div className="flex flex-wrap justify-center">
+            {recentLocalScores.map((score, index) => (
+              <div key={index} className="w-1/2 p-2">
                 <div className="bg-blue-50 p-2 rounded">
                   {score.date} {score.username} {score.score.toLocaleString()}円
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+      </div>
+
+           {/* ボタンセクション */}
+        <div className="flex justify-center">
+        <button
+          onClick={() => navigate('/')}
+          className="bg-blue-300 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded mx-2 mt-5"
+        >
+          ホームに戻る
+        </button>
+        <button
+          onClick={() => navigate('/next')}
+          className="bg-blue-300 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded mx-2 mt-5"
+        >
+          結果に戻る
+        </button>
       </div>
     </div>
-  </div>
-</div>
-);
+  );
 }
 
 export default RankingPage;

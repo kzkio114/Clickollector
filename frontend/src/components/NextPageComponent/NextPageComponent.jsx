@@ -127,7 +127,7 @@ const updateLocalRanking = () => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <h1>結果</h1>
+        <h1 className="text-3xl">結果</h1>
         <p>ユーザー名: {username}</p>
         <h2>獲得アイテム</h2>
         <ul>
@@ -151,14 +151,26 @@ const updateLocalRanking = () => {
           ) : (
           <p>高得点を目指して頑張りましょう！</p>
           )}
-        <button onClick={postToTwitter}>Twitterに投稿する</button>
-        <h2>プレイありがとう</h2>
+          <h2>プレイありがとうございます！</h2>
+        <button
+          onClick={postToTwitter}
+          className="bg-blue-300 hover:bg-blue-500 text-white font-bold py-0.5 px-1 rounded mt-3">
+          Twitterに投稿する
+        </button>
       </motion.div>
       <div>
-      <button onClick={goToHome}>ホームに戻る</button>
-      <button onClick={goToRanking}>ランキングを見る</button>
+      <button
+        onClick={goToHome}
+        className="bg-blue-300 hover:bg-blue-500 text-white font-bold py-0.5 px-1 rounded mt-8">
+        ホームに戻る
+      </button>
+      <button
+        onClick={goToRanking}
+        className="bg-blue-300 hover:bg-blue-500 text-white font-bold py-0.5 px-1 rounded ml-2 mt-8">
+        ランキングを見る
+      </button>
     </div>
-    </div>
+  </div>
   );
 }
 
