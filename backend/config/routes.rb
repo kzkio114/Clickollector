@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :images, only: [:index]
+      resources :rankings, only: [:create, :index]
       resources :items, only: [:index] do
         collection do
           get 'search' # これで`items#search`に対するルートを追加
