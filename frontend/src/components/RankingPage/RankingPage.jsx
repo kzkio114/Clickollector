@@ -33,7 +33,7 @@ function RankingPage() {
         }, []);
 
         // 集計したスコアを基にランキングをソートして設定
-        userScores.sort((a, b) => b.totalScore - a.totalScore);
+        userScores.sort((a, b) =>  b.highestScore - a.highestScore);
         setOnlineRanking(userScores);
       } catch (error) {
         console.error('Failed to fetch online ranking data:', error);
