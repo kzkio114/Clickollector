@@ -80,6 +80,7 @@ const goToRanking = async () => {
 const updateRanking = async () => {
   const newEntry = { username: username, score: totalPrice };
 
+
 console.log(process.env.REACT_APP_API_URL)
 
 // バックエンドに新しいランキングエントリーをPOSTリクエストで送信
