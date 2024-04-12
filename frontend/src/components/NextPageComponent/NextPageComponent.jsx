@@ -58,7 +58,7 @@ const goToHome = () => {
   setCollectedItems([]); // こちらを修正
 
   // ホームページに遷移
-  navigate('/');
+  navigate('/'); // ユーザーをホームへリダイレクト
 };
 
 // ランキングページへ遷移する関数
@@ -69,11 +69,10 @@ const goToRanking = async () => {
     await updateRanking();
     updateLocalRanking(); // こちらは非同期ではないのでawaitは不要
 
-    // ランキングページへ遷移
-    navigate('/ranking');
+    navigate('/', { replace: true }); // ナビゲーションスタックを置き換え
+    navigate('/ranking'); // ランキングページへ移動
   } catch (error) {
     console.error('Ranking update failed:', error);
-    // エラーハンドリングをここに記述
   }
 };
 
@@ -81,24 +80,27 @@ const goToRanking = async () => {
 const updateRanking = async () => {
   const newEntry = { username: username, score: totalPrice };
 
-  // バックエンドに新しいランキングエントリーをPOSTリクエストで送信
-  try {
-    const response = await fetch('バックエンドのエンドポイントURL', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newEntry),
-    });
-    if (!response.ok) {
-      throw new Error("Server response wasn't OK");
-    }
-    // ここで必要に応じてレスポンスを処理
-  } catch (error) {
-    console.error('Error posting ranking:', error);
-  }
-};
 
+console.log(process.env.REACT_APP_API_URL)
+
+// バックエンドに新しいランキングエントリーをPOSTリクエストで送信
+try {
+  const response = await fetch(`${process.env.REACT_APP_API_URL}/api/v1/rankings`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ ranking: newEntry }),
+  });
+  if (!response.ok) {
+    const errorText = await response.text(); // もしくは response.json() もしそのレスポンスがJSONの場合
+    throw new Error(`Server response wasn't OK: ${errorText}`);
+  }
+  // ここで必要に応じてレスポンスを処理
+} catch (error) {
+  console.error('Error posting ranking:', error);
+}
+};
 
 // ローカルランキングを更新する関数（オプション）
 const updateLocalRanking = () => {
@@ -126,7 +128,7 @@ const updateLocalRanking = () => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <h1>結果</h1>
+        <h1 className="text-3xl">結果</h1>
         <p>ユーザー名: {username}</p>
         <h2>獲得アイテム</h2>
         <ul>
@@ -150,14 +152,26 @@ const updateLocalRanking = () => {
           ) : (
           <p>高得点を目指して頑張りましょう！</p>
           )}
-        <button onClick={postToTwitter}>Twitterに投稿する</button>
-        <h2>プレイありがとう</h2>
+          <h2>プレイありがとうございます！</h2>
+        <button
+          onClick={postToTwitter}
+          className="bg-blue-300 hover:bg-blue-500 text-white font-bold py-0.5 px-1 rounded mt-3">
+          Twitterに投稿する
+        </button>
       </motion.div>
       <div>
-      <button onClick={goToHome}>ホームに戻る</button>
-      <button onClick={goToRanking}>ランキングを見る</button>
+      <button
+        onClick={goToHome}
+        className="bg-blue-300 hover:bg-blue-500 text-white font-bold py-0.5 px-1 rounded mt-8">
+        ホームに戻る
+      </button>
+      <button
+        onClick={goToRanking}
+        className="bg-blue-300 hover:bg-blue-500 text-white font-bold py-0.5 px-1 rounded ml-2 mt-8">
+        ランキングを見る
+      </button>
     </div>
-    </div>
+  </div>
   );
 }
 
